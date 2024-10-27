@@ -68,8 +68,12 @@ INSERT INTO public_key (user_id, alias, key_value) VALUES
 
 -- Insertar archivos subidos por los usuarios
 INSERT INTO archivos_subidos (user_id, nombre_archivo, tamano, tipo_contenido, archivo, hash_archivo, es_compartido) VALUES 
-(1, 'documento1.pdf', 2048, 'application/pdf', decode('89504E470D0A1A0A...', 'hex'), 'hashdata1', FALSE),
-(2, 'imagen1.png', 1024, 'image/png', decode('89504E470D0A1A0A...', 'hex'), 'hashdata2', TRUE),
+(1, 'documento1.pdf', 2048, 'application/pdf', decode('89504E470D0A1A0A...', 'hex'), 'hashdata1', FALSE);
+
+INSERT INTO archivos_subidos (user_id, nombre_archivo, tamano, tipo_contenido, archivo, hash_archivo, es_compartido) VALUES 
+(2, 'imagen1.png', 1024, 'image/png', decode('89504E470D0A1A0A...', 'hex'), 'hashdata2', TRUE);
+
+INSERT INTO archivos_subidos (user_id, nombre_archivo, tamano, tipo_contenido, archivo, hash_archivo, es_compartido) VALUES 
 (3, 'archivo_texto.txt', 512, 'text/plain', decode('89504E470D0A1A0A...', 'hex'), 'hashdata3', FALSE);
 
 -- Insertar registros de archivos compartidos con otros usuarios

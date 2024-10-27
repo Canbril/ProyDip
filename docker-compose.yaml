@@ -10,5 +10,30 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ./database/data/:/var/lib/postgresql/data
+    networks:
+      - dmz
     ports:
       - 5432:5432
+  
+  firewall:
+    build:
+      context: firewall
+      dockerfile: Dockerfile
+    container_name: firewall
+    networks:
+      - dmz
+      - lan
+
+
+networks:
+  dmz:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_DMZ}
+  
+  lan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_LAN}
