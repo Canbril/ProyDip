@@ -36,3 +36,12 @@ Web(ACCEPT)	dmz		net
 #DNAT	lan	dmz:172.30.20.10	tcp	80			-	192.168.1.0	# 200.200.200.200
 #DNAT	lan	dmz:172.30.20.10	tcp	443
 #           dmz:ip/port donde escucha la aplicación     dirección que está siendo expuesta, firewall? 
+
+
+
+
+#----------------------------VERSIÓN CHAT.............
+#Asumiendo que el servicio web utiliza el puerto 80 y la base de datos el puerto 3306, las reglas se verían así:
+#ACTION   SOURCE   DEST    PROTO   DEST PORT
+ACCEPT    fw       dmz     tcp     80       # Permitir acceso HTTP solo desde el firewall
+ACCEPT    fw       dmz     tcp     3306     # Permitir acceso a base de datos solo desde el firewall
