@@ -1,4 +1,7 @@
+version: '3.8'
+
 services:
+  #BASE DE DATOS
   database:
     build:
       context: database
@@ -12,9 +15,10 @@ services:
       - ./database/data/:/var/lib/postgresql/data
     networks:
       - dmz
-    ports:
-      - 5432:5432
+    expose:
+      - "3306"
   
+  #------------------------------FIREWALL-----------------------
   firewall:
     build:
       context: firewall
@@ -23,7 +27,21 @@ services:
     networks:
       - dmz
       - lan
-
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1 #Permite que el FW enrute entre redes
+    
+    #--------------------------Contenedor para el servicio web--------------
+  web:
+    image: tu_imagen_web # Imagen de tu aplicación web
+    networks:
+      - dmz
+    depends_on:
+      - firewall # Asegura que el firewall se inicie antes
+    expose:
+      - "80"
+      - "443"
 
 networks:
   dmz:
