@@ -1,0 +1,4 @@
+#ZONE    TYPE      OPTIONS
+fw       firewall
+dmz      ipv4
+lan      ipv4

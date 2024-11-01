@@ -1,0 +1,38 @@
+###########################################
+#ACTION  	SOURCE    	DEST    PROTO   DEST		PORT(S)
+#HEADERS	SWITCH		HELPER	
+?SECTION ALL
+?SECTION ESTABLISHED
+?SECTION RELATED
+?SECTION INVALID
+?SECTION UNTRACKED
+?SECTION NEW
+
+Invalid(DROP)	lan $FW tcp
+
+NTP(ACCEPT)	    $FW		all
+NTP(ACCEPT)	    lan		all
+NTP(ACCEPT)	    dmz		all
+
+Ping(DROP)      lan		$FW
+Ping(ACCEPT)    $FW		all
+Ping(DROP)      dmz		lan
+
+Web(ACCEPT)	$FW		all
+Web(ACCEPT)	$FW		lan
+Web(ACCEPT)	lan		dmz
+Web(ACCEPT)	dmz		net
+
+#Redirección de puertos
+#ACTION	SOURCE	DEST			PROTO	PORT			$PORT	ORIGDEST	#PublicIPV4	
+#----------------------------------------------------------------------------------------------------------------#
+#¿Cómo se interpreta? 
+#Se reliza la acción (ACTION{DNAT}) desde intertet (SOURCE{net}) mediante la dirección por la 
+#cual se establece conexión hacia internet (ORIGDEST) hacia
+#una zona definida en el archivo 'zones', la dirección que se encuentre allí el protocolo y el puerto 
+#(DEST{dmz:172.30.20.10 udp 80})
+
+#DNAT	lan	dmz:172.30.20.10	udp	80			-	192.168.1.0
+#DNAT	lan	dmz:172.30.20.10	tcp	80			-	192.168.1.0	# 200.200.200.200
+#DNAT	lan	dmz:172.30.20.10	tcp	443
+#           dmz:ip/port donde escucha la aplicación     dirección que está siendo expuesta, firewall? 

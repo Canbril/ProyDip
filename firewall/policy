@@ -1,0 +1,7 @@
+#SOURCE   DEST     POLICY       LOG LEVEL
+fw        all      ACCEPT
+dmz       fw       ACCEPT       info
+lan       fw       ACCEPT
+lan       dmz      DROP         info
+dmz       lan      DROP         info
+all       all      REJECT       info
