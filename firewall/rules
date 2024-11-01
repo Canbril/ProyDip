@@ -32,11 +32,11 @@ Web(ACCEPT)	dmz		net
 #una zona definida en el archivo 'zones', la dirección que se encuentre allí el protocolo y el puerto 
 #(DEST{dmz:172.30.20.10 udp 80})
 
-#DNAT	lan	dmz:172.30.20.10	udp	80			-	192.168.1.0
-#DNAT	lan	dmz:172.30.20.10	tcp	80			-	192.168.1.0	# 200.200.200.200
-#DNAT	lan	dmz:172.30.20.10	tcp	443
+#DNAT	lan	dmz:IP_WEB	udp	80,443			-	192.168.1.0
+#DNAT	lan	dmz:IP_WEB	tcp	80,443			-	192.168.1.0	# 200.200.200.200
 #           dmz:ip/port donde escucha la aplicación     dirección que está siendo expuesta, firewall? 
 
+#IP_WEB es la IP específica del contenedor del servicio web en dmz.
 
 
 
