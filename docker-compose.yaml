@@ -31,6 +31,8 @@ services:
       - NET_ADMIN
     sysctls:
       - net.ipv4.ip_forward=1 #Permite que el FW enrute entre redes
+    ports:
+      - 5000:5000
     
     #--------------------------Contenedor para el servicio web--------------
   frontend:
@@ -43,8 +45,6 @@ services:
       - firewall # Asegura que el firewall se inicie antes
     expose:
       - "443"
-    ports:
-      - 3000:3000
 
   backend:
     build:
