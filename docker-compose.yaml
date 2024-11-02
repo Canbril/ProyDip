@@ -1,23 +1,23 @@
-version: '3.8'
-
 services:
   #BASE DE DATOS
   database:
-    build:
-      context: database
-      dockerfile: Dockerfile
-    container_name: database
+    image: postgres:latest
+    restart: always
     environment:
+      - POSTGRES_HOST_AUTH_METHOD: trust
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ./database/data/:/var/lib/postgresql/data
+      - ./database/data.sql:/docker-entrypoint-initdb.d/data.sql  # Montar el archivo data.sql para inicializar la base de datos
     networks:
       - dmz
-    expose:
-      - "3306"
-  
+    ports:
+      - "5432:5432"
+volumes:
+  pg_data: 
+
   #------------------------------FIREWALL-----------------------
   firewall:
     build:
