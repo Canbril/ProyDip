@@ -4,5 +4,7 @@ WORKDIR /server
 COPY . .
 
 RUN npm install
+EXPOSE 5000
 
-ENTRYPOINT ["npm start"]
+# Comando para ejecutar la aplicación
+CMD ["npm", "start"]
