@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  #BASE DE DATOS
+  # BASE DE DATOS
   database:
     build:
       context: database
@@ -17,8 +17,8 @@ services:
       - dmz
     expose:
       - "3306"
-  
-  #------------------------------FIREWALL-----------------------
+
+  # FIREWALL
   firewall:
     build:
       context: firewall
@@ -30,32 +30,34 @@ services:
     cap_add:
       - NET_ADMIN
     sysctls:
-      - net.ipv4.ip_forward=1 #Permite que el FW enrute entre redes
-    
-    #--------------------------Contenedor para el servicio web--------------
+      - net.ipv4.ip_forward=1 # Permite que el FW enrute entre redes
+
+  # FRONTEND
   frontend:
-    build: tu_imagen_web # Imagen de tu aplicación web
+    build:
       context: client
       dockerfile: Dockerfile
+    container_name: frontend
     networks:
       - dmz
     depends_on:
-      - firewall # Asegura que el firewall se inicie antes
+      - firewall
     expose:
       - "3000"
       - "443"
-   backend:
-     build:
-       context: server
-       dockerfile: Dockerfile
-     networks:
-       - dmz
-     depends_on:
-       - firewall
-     expose:
-       - "5000"
 
-
+  # BACKEND
+  backend:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    container_name: backend
+    networks:
+      - dmz
+    depends_on:
+      - firewall
+    expose:
+      - "5000"
 networks:
   dmz:
     driver: bridge
