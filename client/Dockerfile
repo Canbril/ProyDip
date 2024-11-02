@@ -4,6 +4,7 @@ WORKDIR /client
 
 COPY package*.json .
 COPY src/ ./src/
+COPY public/ ./public/
 
 RUN npm install
 
