@@ -33,15 +33,21 @@ volumes:
       - net.ipv4.ip_forward=1 #Permite que el FW enrute entre redes
     
     #--------------------------Contenedor para el servicio web--------------
-  web:
-    image: tu_imagen_web # Imagen de tu aplicación web
+  
+  frontend:
+    container_name: react-client
     networks:
       - dmz
-    depends_on:
-      - firewall # Asegura que el firewall se inicie antes
-    expose:
-      - "80"
-      - "443"
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
 
 networks:
   dmz:
