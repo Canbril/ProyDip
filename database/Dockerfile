@@ -7,3 +7,6 @@ RUN chmod 644 /docker-entrypoint-initdb.d/data.sql;\
     apt-get install -y net-tools
 
 EXPOSE 5432
+
+# El comando por defecto es ejecutar el servidor PostgreSQL
+CMD ["postgres"]

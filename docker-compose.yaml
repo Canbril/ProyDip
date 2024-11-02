@@ -16,7 +16,7 @@ services:
     networks:
       - dmz
     expose:
-      - "3306"
+      - "5432:5432"
   
   #------------------------------FIREWALL-----------------------
   firewall:
@@ -33,15 +33,26 @@ services:
       - net.ipv4.ip_forward=1 #Permite que el FW enrute entre redes
     
     #--------------------------Contenedor para el servicio web--------------
-  web:
-    image: tu_imagen_web # Imagen de tu aplicación web
-    networks:
-      - dmz
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"  # Cambia el puerto según la configuración
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
-      - firewall # Asegura que el firewall se inicie antes
-    expose:
-      - "80"
-      - "443"
+      - db
+    restart: always  # Opcional: reiniciar el contenedor automáticamente si falla
+ 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Cambia el puerto según tu configuración
+    depends_on:
+      - backend
 
 networks:
   dmz:

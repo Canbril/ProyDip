@@ -1,3 +1,5 @@
+CREATE DATABASE dbdiplomado;
+\c dbdiplomado;
 -- Tabla de usuarios
 --Permite registrar usuarios mediante autenticación con correo y contraseña o mediante Google, almacenando el tipo de autenticación
 CREATE TABLE users (
