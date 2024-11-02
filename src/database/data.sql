@@ -17,7 +17,7 @@ CREATE TABLE users (
 --Un usuario puede crear varios pares de llaves, almacenándose en la base de datos únicamente la llave pública
 CREATE TABLE `public_KEY` (
   id SERIAL NOT NULL,
-  alias varchar(255) NOT NULL,
+  alias varchar(255) NOT NULL UNIQUE,
   key_value TEXT NOT NULL,
   PRIMARY KEY (`id`)
 )
