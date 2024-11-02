@@ -6,7 +6,7 @@ function GenerateKeys() {
 
     const handleGenerateKeys = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/generate-keys', {
+            const response = await fetch('http://localhost:4000/api/generate-keys', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ alias }),
