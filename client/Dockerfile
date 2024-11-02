@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Usa la imagen de Node.js
 FROM node:16
 
@@ -17,4 +18,16 @@ COPY . .
 EXPOSE 3000
 
 # Comando para iniciar la aplicación
+=======
+FROM node:latest
+
+WORKDIR /client
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 3000
+# Comando para ejecutar la aplicación
+>>>>>>> 81e731335861a9c1f4fe8b8d4d3d41a4eaf1308d
 CMD ["npm", "start"]

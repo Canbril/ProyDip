@@ -1,5 +1,5 @@
 services:
-  #BASE DE DATOS
+  # BASE DE DATOS
   database:
     image: postgres:latest
     restart: always
@@ -31,6 +31,8 @@ volumes:
       - NET_ADMIN
     sysctls:
       - net.ipv4.ip_forward=1 #Permite que el FW enrute entre redes
+    ports:
+      - 5000:5000
     
     #--------------------------Contenedor para el servicio web--------------
   
@@ -49,6 +51,18 @@ volumes:
     environment:
       - NODE_ENV=development
 
+  # BACKEND
+  backend:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    container_name: backend
+    networks:
+      - dmz
+    depends_on:
+      - firewall
+    expose:
+      - "5000"
 networks:
   dmz:
     driver: bridge
