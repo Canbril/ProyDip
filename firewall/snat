@@ -1,4 +1,0 @@
-#Si se requiere que las conexiones desde dmz hacia lan (por ejemplo, para registrar logs en una base de datos externa) 
-#pasen por el firewall y usen SNAT, configura MASQUERADE en dmz.
-#ACTION      SOURCE    DEST      PROTO   PORT     ADDRESS
-MASQUERADE   dmz       

@@ -1,14 +1,8 @@
 FROM debian:latest
 
 RUN apt-get update && \
-    #apt-get install -y shorewall net-tools && \
-    apt-get install -y iptables iputils-ping
-    #apt-get clean
+    apt-get install -y iptables
 
-#COPY zones interfaces rules policy snat /etc/shorewall/
+EXPOSE 4000 3000
 
-EXPOSE 5000 3000
 CMD [ "/bin/bash", "-c", "while true; do sleep 1; done" ]
-
-#Opción chatgpt
-#CMD ["/usr/sbin/shorewall", "start", "-f"]

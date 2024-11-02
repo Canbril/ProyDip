@@ -1,4 +1,0 @@
-?FORMAT 2
-#ZONE   INTERFACE  OPTIONS
-dmz     eth0   routeback=1
-lan     eth1   routeback=1

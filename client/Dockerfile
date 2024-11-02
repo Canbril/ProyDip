@@ -1,11 +1,17 @@
-FROM node:latest
+FROM node:latest AS builder
 
 WORKDIR /client
 
 COPY . .
 
-RUN npm install
+RUN npm install; \
+    npm run build
 
-EXPOSE 3000
-# Comando para ejecutar la aplicación
-CMD ["npm", "start"]
+# nginx
+FROM nginx:latest
+
+COPY --from=builder /client/build/ /usr/share/nginx/html
+
+EXPOSE 80
+
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
