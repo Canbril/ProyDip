@@ -2,10 +2,10 @@ FROM node:latest
 
 WORKDIR /client
 
-COPY package*.json .
-COPY src/ ./src/
-COPY public/ ./public/
+COPY . .
 
 RUN npm install
 
-ENTRYPOINT ["npm start"]
+EXPOSE 3000
+# Comando para ejecutar la aplicación
+CMD ["npm", "start"]

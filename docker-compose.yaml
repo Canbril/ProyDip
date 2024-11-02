@@ -34,7 +34,7 @@ services:
     
     #--------------------------Contenedor para el servicio web--------------
   frontend:
-    build: tu_imagen_web # Imagen de tu aplicación web
+    build: # Imagen de tu aplicación web
       context: client
       dockerfile: Dockerfile
     networks:
@@ -42,18 +42,18 @@ services:
     depends_on:
       - firewall # Asegura que el firewall se inicie antes
     expose:
-      - "3000"
       - "443"
-   backend:
-     build:
-       context: server
-       dockerfile: Dockerfile
-     networks:
-       - dmz
-     depends_on:
-       - firewall
-     expose:
-       - "5000"
+    ports:
+      - 3000:3000
+
+  backend:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    networks:
+      - dmz
+    depends_on:
+      - firewall
 
 
 networks:
