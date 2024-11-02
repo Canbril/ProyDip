@@ -6,6 +6,7 @@ RUN apt-get update && \
 
 COPY zones interfaces rules policy snat /etc/shorewall/
 
+EXPOSE 5000
 CMD [ "/bin/bash", "-c", "while true; do sleep 1; done" ]
 
 #Opción chatgpt
