@@ -20,6 +20,8 @@ services:
       context: firewall
       dockerfile: Dockerfile
     container_name: firewall
+    environment:
+      - IP_CLIENT=10.40.1.6
     networks:
       - dmz
       - lan
@@ -34,16 +36,17 @@ services:
     #--------------------------Contenedor para el servicio web--------------
   
   frontend:
-    container_name: react-client
-    networks:
-      - dmz
     build:
       context: client
       dockerfile: Dockerfile
-    environment:
-      - NODE_ENV=development
+    container_name: frontend
     depends_on:
       - firewall
+    environment:
+      - NODE_ENV=development
+    networks:
+      dmz:
+        ipv4_address: 10.40.1.6
 
   # BACKEND
   backend:
