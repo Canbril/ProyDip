@@ -13,7 +13,9 @@ function Login({ setIsAuthenticated }) {
             });
             const data = await response.json();
             if (data.token) {
+                // Almacena el token y el username en el almacenamiento local
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('username', username); // Guardar el username
                 setIsAuthenticated(true);
             } else {
                 alert(data.error);
@@ -26,8 +28,18 @@ function Login({ setIsAuthenticated }) {
     return (
         <div>
             <h2>Inicio de Sesión</h2>
-            <input type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input 
+                type="text" 
+                placeholder="Usuario" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+            />
+            <input 
+                type="password" 
+                placeholder="Contraseña" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+            />
             <button onClick={handleLogin}>Iniciar Sesión</button>
         </div>
     );

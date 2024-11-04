@@ -7,17 +7,20 @@ import './App.css';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [username, setUsername] = useState(''); // Agregar estado para username
 
-    // Verificar token en el almacenamiento local al cargar la app
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const storedUsername = localStorage.getItem('username'); // Obtener el username
         if (token) {
             setIsAuthenticated(true);
+            setUsername(storedUsername); // Establecer el username
         }
     }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('username'); // Limpiar el username
         setIsAuthenticated(false);
     };
 
@@ -34,7 +37,7 @@ function App() {
                         <Login setIsAuthenticated={setIsAuthenticated} />
                     </>
                 ) : (
-                    <GenerateKeys />
+                    <GenerateKeys username={username}/>
                 )}
             </main>
         </div>

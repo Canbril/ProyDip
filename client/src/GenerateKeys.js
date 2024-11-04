@@ -1,15 +1,14 @@
-// client/src/GenerateKeys.js
 import React, { useState } from 'react';
 
 function GenerateKeys() {
-    const [alias, setAlias] = useState('');
+    const [username] = useState(localStorage.getItem('username')); // Obtiene el username del almacenamiento local
 
     const handleGenerateKeys = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/generate-keys', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ alias }),
+                body: JSON.stringify({ username }), // Envía el username en el cuerpo
             });
 
             if (!response.ok) {
@@ -32,12 +31,6 @@ function GenerateKeys() {
     return (
         <div>
             <h1>Generar Llaves RSA</h1>
-            <input
-                type="text"
-                placeholder="Ingresa un alias"
-                value={alias}
-                onChange={(e) => setAlias(e.target.value)}
-            />
             <button onClick={handleGenerateKeys}>Generar y Descargar Llaves</button>
         </div>
     );
