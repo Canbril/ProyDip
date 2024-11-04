@@ -21,7 +21,8 @@ services:
       dockerfile: Dockerfile
     container_name: fw
     environment:
-      - IP_CLIENT=10.40.1.6
+      - IP_FRONTEND=10.40.1.6
+      - IP_BACKEND=10.40.1.7
     networks:
       - dmz
       - lan
@@ -54,10 +55,11 @@ services:
       context: server
       dockerfile: Dockerfile
     container_name: server
-    networks:
-      - dmz
     depends_on:
       - firewall
+    networks:
+      dmz:
+        ipv4_address: 10.40.1.7
 
 networks:
   dmz:
