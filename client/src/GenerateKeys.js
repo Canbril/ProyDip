@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-function GenerateKeys() {
-    const [username] = useState(localStorage.getItem('username')); // Obtiene el username del almacenamiento local
-
+function GenerateKeys({ token }) {
     const handleGenerateKeys = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/generate-keys', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username }), // Envía el username en el cuerpo
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
             });
 
             if (!response.ok) {

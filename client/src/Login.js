@@ -3,6 +3,7 @@ import { useState } from 'react';
 function Login({ setIsAuthenticated }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleLogin = async () => {
         try {
@@ -12,22 +13,28 @@ function Login({ setIsAuthenticated }) {
                 body: JSON.stringify({ username, password }),
             });
             const data = await response.json();
-            if (data.token) {
-                // Almacena el token y el username en el almacenamiento local
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('username', username); // Guardar el username
-                setIsAuthenticated(true);
+            if (response.ok) {
+                if (data.token) {
+                    // Almacena el token y el username en el almacenamiento local
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', username); // Guardar el username
+                    setIsAuthenticated(true);
+                    // Aquí podrías redirigir al usuario a otra página si es necesario
+                }
             } else {
-                alert(data.error);
+                // Maneja el error
+                setError(data.error || 'Error en el inicio de sesión');
             }
         } catch (error) {
             console.error('Error en el inicio de sesión:', error);
+            setError('Error en el inicio de sesión');
         }
     };
 
     return (
         <div>
             <h2>Inicio de Sesión</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <input 
                 type="text" 
                 placeholder="Usuario" 
