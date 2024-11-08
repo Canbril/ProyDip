@@ -1,28 +1,25 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function Login({ setIsAuthenticated }) {
-    const [username, setUsername] = useState('');
+function Login({ setIsAuthenticated, setUsername, setToken }) {
+    const [username, setLocalUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/login', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
             const data = await response.json();
-            if (response.ok) {
-                if (data.token) {
-                    // Almacena el token y el username en el almacenamiento local
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('username', username); // Guardar el username
-                    setIsAuthenticated(true);
-                    // Aquí podrías redirigir al usuario a otra página si es necesario
-                }
+            if (response.ok && data.token) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', username);
+                setIsAuthenticated(true);
+                setUsername(username);
+                setToken(data.token);
             } else {
-                // Maneja el error
                 setError(data.error || 'Error en el inicio de sesión');
             }
         } catch (error) {
@@ -39,7 +36,7 @@ function Login({ setIsAuthenticated }) {
                 type="text" 
                 placeholder="Usuario" 
                 value={username} 
-                onChange={(e) => setUsername(e.target.value)} 
+                onChange={(e) => setLocalUsername(e.target.value)} 
             />
             <input 
                 type="password" 

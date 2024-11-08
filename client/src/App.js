@@ -1,4 +1,3 @@
-// client/src/App.js
 import React, { useState, useEffect } from 'react';
 import GenerateKeys from './GenerateKeys';
 import UploadFile from './UploadFile';
@@ -10,13 +9,15 @@ import './App.css';
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
+    const [token, setToken] = useState('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token');
         const storedUsername = localStorage.getItem('username');
-        if (token) {
+        if (storedToken) {
             setIsAuthenticated(true);
             setUsername(storedUsername);
+            setToken(storedToken);
         }
     }, []);
 
@@ -25,6 +26,7 @@ function App() {
         localStorage.removeItem('username');
         setIsAuthenticated(false);
         setUsername('');
+        setToken('');
     };
 
     return (
@@ -37,13 +39,13 @@ function App() {
                 {!isAuthenticated ? (
                     <>
                         <Register />
-                        <Login setIsAuthenticated={setIsAuthenticated} />
+                        <Login setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} setToken={setToken} />
                     </>
                 ) : (
                     <>
-                        <GenerateKeys username={username} />
-                        <UploadFile username={username} />
-                        <SignFile username={username} />
+                        <GenerateKeys token={token} />
+                        <UploadFile token={token} />
+                        <SignFile token={token} />
                     </>
                 )}
             </main>

@@ -1,7 +1,6 @@
-// server/src/config.js
-module.exports = {
-    jwtSecret: 'your_jwt_secret',  // Cambia esto por una clave segura en producción
-    jwtExpireTime: '1h',  // Tiempo de expiración del token
-  };
+require('dotenv').config();
 
-  
+module.exports = {
+    jwtSecret: process.env.JWT_SECRET,
+    jwtExpireTime: process.env.JWT_EXPIRE_TIME
+};

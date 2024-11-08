@@ -1,7 +1,7 @@
-const pool = require('../db'); // Conexión a la base de datos PostgreSQL
+const pool = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'tu_clave_secreta'; // Cambia esta clave a una más segura
+const SECRET_KEY = process.env.JWT_SECRET || 'default_secret'; // Cambia esto a usar la variable de entorno
 
 // Registro de usuarios
 exports.register = async (req, res) => {
@@ -38,7 +38,6 @@ exports.login = async (req, res) => {
     }
 
     try {
-        // Buscar el usuario en la base de datos
         const result = await pool.query(`SELECT * FROM users WHERE username = $1`, [username]);
         const user = result.rows[0];
 
@@ -46,14 +45,12 @@ exports.login = async (req, res) => {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
 
-        // Verificar la contraseña
         const isValidPassword = await bcrypt.compare(password, user.user_pass);
         if (!isValidPassword) {
             return res.status(401).json({ error: 'Contraseña incorrecta' });
         }
 
-        // Crear token JWT
-        const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.json({ message: 'Inicio de sesión exitoso', token });
     } catch (error) {

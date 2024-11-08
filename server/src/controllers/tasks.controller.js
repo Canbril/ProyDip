@@ -1,4 +1,3 @@
-// src/controllers/tasks.controller.js
 const crypto = require('crypto');
 const pool = require('../db');
 

@@ -40,7 +40,6 @@ exports.uploadFile = [
     }
 ];
 
-
 exports.signFile = async (req, res) => {
     const { archivo_id, privateKey } = req.body;
     const user_id = req.user.id; // Obtén el user_id del usuario autenticado

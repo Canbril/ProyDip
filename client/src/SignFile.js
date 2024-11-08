@@ -1,15 +1,17 @@
-// client/src/SignFile.js
 import React, { useState } from 'react';
 
-function SignFile({ username }) {
+function SignFile({ token }) {
     const [archivoId, setArchivoId] = useState('');
     const [privateKey, setPrivateKey] = useState('');
 
     const handleSignFile = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/files/sign', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/files/sign`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ archivo_id: archivoId, privateKey }),
             });
 

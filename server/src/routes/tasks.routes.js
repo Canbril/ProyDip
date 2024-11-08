@@ -1,9 +1,9 @@
-// src/routes/tasks.routes.js
 const express = require('express');
 const router = express.Router();
-const tasksController = require('../controllers/tasks.controller');
-const authenticateToken = require('../middleware/authMiddleware'); // Importa el middleware
+const { generateKeys } = require('../controllers/tasks.controller');
+const { authenticateJWT } = require('../middleware/authenticateJWT');
 
-router.post('/generate-keys', authenticateToken, tasksController.generateKeys); // Aplica el middleware
+// Ruta para generar llaves (requiere autenticación)
+router.post('/generate-keys', authenticateJWT, generateKeys);
 
 module.exports = router;

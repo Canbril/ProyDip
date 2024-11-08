@@ -1,13 +1,15 @@
-// src/routes/files.routes.js
 const express = require('express');
-const { uploadFile, signFile, verifySignature } = require('../controllers/files.controller');
-const authenticateToken = require('../middleware/authMiddleware'); // Importa el middleware
-
 const router = express.Router();
+const { uploadFile, signFile, verifySignature } = require('../controllers/files.controller');
+const { authenticateJWT } = require('../middleware/authenticateJWT');
 
-// Usa el middleware de autenticación en las rutas que lo requieren
-router.post('/upload', authenticateToken, uploadFile);
-router.post('/sign', authenticateToken, signFile);
-router.post('/verify', authenticateToken, verifySignature);
+// Ruta para subir archivos (requiere autenticación)
+router.post('/upload', authenticateJWT, uploadFile);
+
+// Ruta para firmar archivos (requiere autenticación)
+router.post('/sign', authenticateJWT, signFile);
+
+// Ruta para verificar la firma (requiere autenticación)
+router.post('/verify', authenticateJWT, verifySignature);
 
 module.exports = router;

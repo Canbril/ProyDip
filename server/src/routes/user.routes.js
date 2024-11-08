@@ -1,9 +1,11 @@
-// src/routes/users.routes.js
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/user.controller');
+const { register, login } = require('../controllers/user.controller');
 
-router.post('/register', userController.register);
-router.post('/login', userController.login);
+// Ruta para registrar un usuario
+router.post('/register', register);
+
+// Ruta para iniciar sesión
+router.post('/login', login);
 
 module.exports = router;
