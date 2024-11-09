@@ -48,7 +48,9 @@ CREATE TABLE archivos_firmados (
  id SERIAL PRIMARY KEY, 
 archivo_id INT REFERENCES archivos_subidos(id) ON DELETE CASCADE, 
 public_key_id INT REFERENCES public_key(id), -- Referencia a la clave pública utilizada para firmar signature TEXT NOT NULL, 
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+username VARCHAR(255)
+);
 
 
 

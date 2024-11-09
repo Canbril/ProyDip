@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GenerateKeys from './GenerateKeys';
 import UploadFile from './UploadFile';
 import SignFile from './SignFile';
+import VerifySignature from './VerifySignature';
 import Register from './Register';
 import Login from './Login';
 import './App.css';
@@ -46,6 +47,7 @@ function App() {
                         <GenerateKeys token={token} />
                         <UploadFile token={token} />
                         <SignFile token={token} />
+                        <VerifySignature token={token} />
                     </>
                 )}
             </main>

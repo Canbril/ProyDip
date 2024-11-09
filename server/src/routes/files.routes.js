@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { uploadFile, signFile, verifySignature } = require('../controllers/files.controller');
+const { uploadFile, getUserFiles, signFile, verifySignature, getUserSignatures} = require('../controllers/files.controller');
 const { authenticateJWT } = require('../middleware/authenticateJWT');
 
-// Ruta para subir archivos (requiere autenticación)
+// Rutas protegidas
 router.post('/upload', authenticateJWT, uploadFile);
-
-// Ruta para firmar archivos (requiere autenticación)
+router.get('/user-files', authenticateJWT, getUserFiles);
 router.post('/sign', authenticateJWT, signFile);
-
-// Ruta para verificar la firma (requiere autenticación)
 router.post('/verify', authenticateJWT, verifySignature);
+router.get('/signatures', authenticateJWT, getUserSignatures);
+
 
 module.exports = router;
