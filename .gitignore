@@ -1,1 +1,6 @@
 database/data
+docker-compose.yaml
+client/node_modules/
+server/node_modules/
+client/Dockerfile
+firewall/Dockerfile
