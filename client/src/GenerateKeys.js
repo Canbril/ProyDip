@@ -1,31 +1,46 @@
-// client/src/GenerateKeys.js
-import React, { useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
-function GenerateKeys() {
-    const [alias, setAlias] = useState('');
-
+function GenerateKeys({ token }) {
     const handleGenerateKeys = async () => {
         try {
 
-            const response = await fetch('http://localhost:4000/api/generate-keys', {
+            console.log("Token recibido:", token);  // Verifica si el token está presente
 
+            // Decodificar el token para obtener el username
+            const decodedToken = jwtDecode(token);
+            console.log("Token decodificado:", decodedToken);  // Verifica que el token se decodifique correctamente
+
+            const username = decodedToken.username;
+            if (!username) {
+                throw new Error('Username no disponible en el token');
+            }
+
+            console.log("Username extraído del token:", username);  // Verifica que el username se extraiga correctamente
+
+            const requestData = { username };
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks/generate-keys`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ alias }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  // Asegúrate de pasar el token en el header
+                },
+                body: JSON.stringify(requestData),
             });
 
             if (!response.ok) {
                 throw new Error('Error al generar las llaves');
             }
 
-            const privateKeyBlob = await response.blob();
-            const url = window.URL.createObjectURL(privateKeyBlob);
+            const data = await response.blob();
+            console.log("Llave generada, descargando...", data);  // Verifica que se reciba la respuesta correctamente
+
+            // Si es necesario, puedes procesar el archivo binario recibido (por ejemplo, descargarlo como archivo)
             const link = document.createElement('a');
-            link.href = url;
+            link.href = URL.createObjectURL(data);
             link.download = 'privateKey.pem';
-            document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -34,12 +49,6 @@ function GenerateKeys() {
     return (
         <div>
             <h1>Generar Llaves RSA</h1>
-            <input
-                type="text"
-                placeholder="Ingresa un alias"
-                value={alias}
-                onChange={(e) => setAlias(e.target.value)}
-            />
             <button onClick={handleGenerateKeys}>Generar y Descargar Llaves</button>
         </div>
     );

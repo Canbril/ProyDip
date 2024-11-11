@@ -40,9 +40,44 @@ CREATE TABLE archivos_compartidos (
 
 -- Tabla de firmas de archivos
 CREATE TABLE archivos_firmados (
-  id SERIAL PRIMARY KEY,
-  archivo_id INT REFERENCES archivos_subidos(id) ON DELETE CASCADE,
-  public_key_id INT REFERENCES public_key(id), -- Referencia a la clave pública utilizada para firmar
-  signature TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id SERIAL PRIMARY KEY, 
+  archivo_id INT REFERENCES archivos_subidos(id) ON DELETE CASCADE, 
+  public_key_id INT REFERENCES public_key(id), -- Referencia a la clave pública utilizada para firmar signature TEXT NOT NULL, 
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  username VARCHAR(255)
 );
+
+--Inserts de ejemplo
+
+-- Insertar usuarios
+INSERT INTO users (username, email, user_pass, auth_provider) VALUES 
+('usuario1', 'usuario1@example.com', 'password1', 'email'),
+('usuario2', 'usuario2@example.com', NULL, 'google'),
+('usuario3', 'usuario3@example.com', 'password3', 'email');
+
+-- Insertar llaves públicas asociadas a los usuarios
+INSERT INTO public_key (user_id, alias, key_value) VALUES 
+(1, 'usuario1_key1', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsamplekeydata1...'),
+(1, 'usuario1_key2', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsamplekeydata2...'),
+(2, 'usuario2_key1', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsamplekeydata3...');
+
+-- Insertar archivos subidos por los usuarios
+INSERT INTO archivos_subidos (user_id, nombre_archivo, tamano, tipo_contenido, archivo, hash_archivo, es_compartido) VALUES 
+(1, 'documento1.pdf', 2048, 'application/pdf', decode('89504E470D0A1A0A...', 'hex'), 'hashdata1', FALSE);
+
+INSERT INTO archivos_subidos (user_id, nombre_archivo, tamano, tipo_contenido, archivo, hash_archivo, es_compartido) VALUES 
+(2, 'imagen1.png', 1024, 'image/png', decode('89504E470D0A1A0A...', 'hex'), 'hashdata2', TRUE);
+
+INSERT INTO archivos_subidos (user_id, nombre_archivo, tamano, tipo_contenido, archivo, hash_archivo, es_compartido) VALUES 
+(3, 'archivo_texto.txt', 512, 'text/plain', decode('89504E470D0A1A0A...', 'hex'), 'hashdata3', FALSE);
+
+-- Insertar registros de archivos compartidos con otros usuarios
+INSERT INTO archivos_compartidos (archivo_id, user_id, puede_firmar, firmado) VALUES 
+(2, 1, TRUE, FALSE), -- El usuario 1 puede firmar el archivo de usuario 2, pero aún no lo ha firmado
+(3, 1, FALSE, FALSE), -- El usuario 1 puede acceder, pero no puede firmar
+(1, 2, TRUE, TRUE); -- El usuario 2 firmó el archivo de usuario 1
+
+-- Insertar firmas en archivos
+--Un usuario A firma el archivo compartido por un Usuario B
+INSERT INTO archivos_firmados (archivo_id, public_key_id, signature) VALUES 
+(1, 2, 'firmaEjemplo1Data');
