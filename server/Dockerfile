@@ -4,7 +4,7 @@ WORKDIR /server
 COPY . .
 
 RUN npm install
-EXPOSE 4000
+EXPOSE 5000
 
 # Comando para ejecutar la aplicación
 CMD ["npm", "start"]

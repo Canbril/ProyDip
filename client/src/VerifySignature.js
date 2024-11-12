@@ -50,7 +50,7 @@ function VerifySignature({ token }) {
                 onChange={(e) => setSelectedSignature(e.target.value)}
             >
                 <option value="">Seleccione una firma</option>
-                {signatures.map((sig) => (
+                {signatures.length > 0 && signatures.map((sig) => (
                     <option key={sig.id} value={`${sig.archivo_id},${sig.signature}`}>
                         {sig.nombre_archivo} - Fecha: {new Date(sig.created_at).toLocaleString()}
                     </option>
