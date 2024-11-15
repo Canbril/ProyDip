@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode"
 
 function Login({ setIsAuthenticated, setUsername, setToken }) {
     const [username, setLocalUsername] = useState('');
@@ -29,10 +31,15 @@ function Login({ setIsAuthenticated, setUsername, setToken }) {
         }
     };
 
+    const googleLoginHandler = (googleResponse) => {
+        console.log(googleResponse);
+        console.log(jwtDecode(googleResponse?.credential));
+    };
+
     return (
         <div class="mb-5 w-50 border-bottom-1">
             <h2 class="h2">Inicio de Sesión</h2>
-            <div class="input-group">
+            <div class="input-group mb-3">
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <input
                     class="form-control"
@@ -50,6 +57,12 @@ function Login({ setIsAuthenticated, setUsername, setToken }) {
                 />
                 <button class="btn btn-secondary" onClick={handleLogin}>Iniciar Sesión</button>
             </div>
+            <GoogleLogin
+                onSuccess={googleLoginHandler}
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+            />
         </div>
     );
 }
