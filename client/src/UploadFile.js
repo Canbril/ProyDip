@@ -37,10 +37,12 @@ function UploadFile({ token }) {
     };
 
     return (
-        <div>
-            <h2>Subir Archivo</h2>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Subir</button>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Subir Archivo</h2>
+            <div class="input-group">
+                <input class="form-control" type="file" onChange={handleFileChange} />
+                <button class="btn btn-secondary" onClick={handleUpload}>Subir</button>
+            </div>
         </div>
     );
 }
