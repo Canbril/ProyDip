@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import GenerateKeys from './GenerateKeys';
 import UploadFile from './UploadFile';
 import SignFile from './SignFile';
@@ -40,7 +41,9 @@ function App() {
                 {!isAuthenticated ? (
                     <>
                         <Register />
-                        <Login setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} setToken={setToken} />
+                        <GoogleOAuthProvider clientId="230512244860-v5qbv35tbha8hgj4kh99uuhf6cdap9kq.apps.googleusercontent.com">
+                            <Login setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} setToken={setToken} />
+                        </GoogleOAuthProvider>
                     </>
                 ) : (
                     <>

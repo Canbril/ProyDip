@@ -4,7 +4,8 @@ WORKDIR /client
 
 COPY . .
 
-RUN npm install; \
+RUN npm install @react-oauth/google@latest; \ 
+    npm install; \
     npm run build
 
 # nginx
