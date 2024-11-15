@@ -47,6 +47,8 @@ services:
       - firewall
     environment:
       - NODE_ENV=development
+    volumes:
+      - "./certs/:/etc/nginx/certs/:ro"
     networks:
       dmz:
         ipv4_address: 10.40.1.6

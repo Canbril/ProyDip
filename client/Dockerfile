@@ -11,6 +11,7 @@ RUN npm install; \
 FROM nginx:latest
 
 COPY --from=builder /client/build/ /usr/share/nginx/html
+ADD default.conf /etc/nginx/conf.d/
 
 EXPOSE 80
 
