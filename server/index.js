@@ -23,7 +23,7 @@ const fileRoutes = require('./src/routes/files.routes');
 
 // Configuración de middlewares
 app.use(cors({
-    origin: 'https://localhost:3000', // Cambia esto al puerto donde corre tu app de React
+    origin: '*', // Cambia esto al puerto donde corre tu app de React
     credentials: true
 }));
 app.use(express.json()); // Permite que el cuerpo de las solicitudes se maneje como JSON
