@@ -59,6 +59,8 @@ services:
     container_name: server
     depends_on:
       - firewall
+    volumes:
+      - "./certs/:/certs/:ro"
     networks:
       dmz:
         ipv4_address: 10.40.1.7
