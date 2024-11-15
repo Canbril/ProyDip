@@ -29,22 +29,26 @@ function Login({ setIsAuthenticated, setUsername, setToken }) {
     };
 
     return (
-        <div>
-            <h2>Inicio de Sesión</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <input 
-                type="text" 
-                placeholder="Usuario" 
-                value={username} 
-                onChange={(e) => setLocalUsername(e.target.value)} 
-            />
-            <input 
-                type="password" 
-                placeholder="Contraseña" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-            />
-            <button onClick={handleLogin}>Iniciar Sesión</button>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Inicio de Sesión</h2>
+            <div class="input-group">
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <input
+                    class="form-control"
+                    type="text" 
+                    placeholder="Usuario" 
+                    value={username} 
+                    onChange={(e) => setLocalUsername(e.target.value)} 
+                />
+                <input
+                    class="form-control"
+                    type="password" 
+                    placeholder="Contraseña" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                />
+                <button class="btn btn-secondary" onClick={handleLogin}>Iniciar Sesión</button>
+            </div>
         </div>
     );
 }

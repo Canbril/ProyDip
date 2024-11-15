@@ -47,9 +47,9 @@ function GenerateKeys({ token }) {
     };
 
     return (
-        <div>
-            <h1>Generar Llaves RSA</h1>
-            <button onClick={handleGenerateKeys}>Generar y Descargar Llaves</button>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Generar Llaves RSA</h2>
+            <button class="btn btn-secondary" onClick={handleGenerateKeys}>Generar y Descargar Llaves</button>
         </div>
     );
 }

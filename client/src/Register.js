@@ -22,13 +22,15 @@ function Register() {
     };
 
     return (
-        <div>
-            <h2>Registro</h2>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Registro</h2>
             {message && <p>{message}</p>}
-            <input type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleRegister}>Registrar</button>
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <input class="form-control" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input class="form-control" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <button class="btn btn-secondary" onClick={handleRegister}>Registrar</button>
+            </div>
         </div>
     );
 }

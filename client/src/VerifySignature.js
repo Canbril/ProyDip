@@ -43,21 +43,24 @@ function VerifySignature({ token }) {
     };
 
     return (
-        <div>
-            <h2>Verificar Firma</h2>
-            <select
-                value={selectedSignature}
-                onChange={(e) => setSelectedSignature(e.target.value)}
-            >
-                <option value="">Seleccione una firma</option>
-                {signatures.length > 0 && signatures.map((sig) => (
-                    <option key={sig.id} value={`${sig.archivo_id},${sig.signature}`}>
-                        {sig.nombre_archivo} - Fecha: {new Date(sig.created_at).toLocaleString()}
-                    </option>
-                ))}
-            </select>
-            <button onClick={handleVerifySignature}>Verificar Firma</button>
-            {verificationResult && <p>{verificationResult}</p>}
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Verificar Firma</h2>
+            <div class="input-group">
+                <select
+                    class="form-select"
+                    value={selectedSignature}
+                    onChange={(e) => setSelectedSignature(e.target.value)}
+                >
+                    <option value="">Seleccione una firma</option>
+                    {signatures.length > 0 && signatures.map((sig) => (
+                        <option key={sig.id} value={`${sig.archivo_id},${sig.signature}`}>
+                            {sig.nombre_archivo} - Fecha: {new Date(sig.created_at).toLocaleString()}
+                        </option>
+                    ))}
+                </select>
+                <button class="btn btn-secondary" onClick={handleVerifySignature}>Verificar Firma</button>
+                {verificationResult && <p>{verificationResult}</p>}
+            </div>
         </div>
     );
 }

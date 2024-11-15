@@ -71,20 +71,27 @@ function SignFile({ token }) {
     };
 
     return (
-        <div>
-            <h2>Firmar Archivo</h2>
-            <select value={archivoId} onChange={(e) => setArchivoId(e.target.value)}>
-                <option value="">Selecciona un archivo</option>
-                {userFiles.length > 0 ? (
-                    userFiles.map((file) => (
-                        <option key={file.id} value={file.id}>{file.nombre_archivo}</option>
-                    ))
-                ) : (
-                    <option value="">No tienes archivos subidos</option>
-                )}
-            </select>
-            <input type="file" accept=".pem" onChange={handlePrivateKeyUpload} />
-            <button onClick={handleSignFile}>Firmar Archivo</button>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Firmar Archivo</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <select class="form-select mb-2" value={archivoId} onChange={(e) => setArchivoId(e.target.value)}>
+                        <option value="">Selecciona un archivo</option>
+                        {userFiles.length > 0 ? (
+                            userFiles.map((file) => (
+                                <option key={file.id} value={file.id}>{file.nombre_archivo}</option>
+                            ))
+                        ) : (
+                            <option value="">No tienes archivos subidos</option>
+                        )}
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <input class="form-control" type="file" accept=".pem" onChange={handlePrivateKeyUpload} />
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onClick={handleSignFile}>Firmar Archivo</button>
         </div>
     );
 }

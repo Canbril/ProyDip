@@ -33,8 +33,8 @@ function App() {
     return (
         <div className="App">
             <header>
-                <h1>Aplicación de Llaves RSA</h1>
-                {isAuthenticated && <button onClick={handleLogout}>Cerrar Sesión</button>}
+                <h1 class="display-1">Aplicación de Llaves RSA</h1>
+                {isAuthenticated && <button class="btn btn-secondary" onClick={handleLogout}>Cerrar Sesión</button>}
             </header>
             <main>
                 {!isAuthenticated ? (
