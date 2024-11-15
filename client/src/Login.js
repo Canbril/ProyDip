@@ -19,6 +19,7 @@ function Login({ setIsAuthenticated, setUsername, setToken }) {
                 setIsAuthenticated(true);
                 setUsername(username);
                 setToken(data.token);
+                console.log('Token JWT:', data.token);
             } else {
                 setError(data.error || 'Error en el inicio de sesión');
             }

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import GenerateKeys from './GenerateKeys';
 import UploadFile from './UploadFile';
@@ -8,6 +9,7 @@ import Login from './Login';
 import './App.css';
 
 function App() {
+    
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
