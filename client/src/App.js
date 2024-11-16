@@ -14,6 +14,7 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
+    const GOOGLE_CLIENT_ID = "230512244860-v5qbv35tbha8hgj4kh99uuhf6cdap9kq.apps.googleusercontent.com";
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -43,7 +44,7 @@ function App() {
                 {!isAuthenticated ? (
                     <>
                         <Register />
-                        <GoogleOAuthProvider clientId="230512244860-v5qbv35tbha8hgj4kh99uuhf6cdap9kq.apps.googleusercontent.com">
+                        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID} token={token}>
                             <Login setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} setToken={setToken} />
                         </GoogleOAuthProvider>
                     </>

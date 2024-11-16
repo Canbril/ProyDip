@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode"
 
@@ -32,8 +32,15 @@ function Login({ setIsAuthenticated, setUsername, setToken }) {
     };
 
     const googleLoginHandler = (googleResponse) => {
-        console.log(googleResponse);
         console.log(jwtDecode(googleResponse?.credential));
+        let { credential } = googleResponse;
+        const { given_name } = jwtDecode(credential);
+
+        localStorage.setItem('token', googleResponse?.credential);
+        localStorage.setItem('username', given_name);
+        setIsAuthenticated(true)
+        setUsername(given_name);
+        setToken(googleResponse?.credential)
     };
 
     return (
