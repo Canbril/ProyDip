@@ -31,16 +31,32 @@ function Login({ setIsAuthenticated, setUsername, setToken }) {
         }
     };
 
-    const googleLoginHandler = (googleResponse) => {
-        console.log(jwtDecode(googleResponse?.credential));
+    const googleLoginHandler = async (googleResponse) => {
         let { credential } = googleResponse;
         const { given_name } = jwtDecode(credential);
 
-        localStorage.setItem('token', googleResponse?.credential);
-        localStorage.setItem('username', given_name);
-        setIsAuthenticated(true)
-        setUsername(given_name);
-        setToken(googleResponse?.credential)
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/google-login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ credential }),
+            });
+
+            const data = await response.json();
+            
+            if (response.ok && data.token) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', given_name);
+                setIsAuthenticated(true);
+                setUsername(username);
+                setToken(data.token);
+                console.log('Token JWT:', data.token);
+            } else {
+                console.log(data.error || 'Error en el inicio de sesión');
+            }
+        } catch (error) {
+            console.error('Error en el inicio de sesión:', error);
+        }
     };
 
     return (

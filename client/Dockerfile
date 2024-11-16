@@ -6,7 +6,6 @@ COPY . .
 
 RUN npm install; \
     npm install @react-oauth/google@latest; \
-    npm install axios; \
     npm run build
 
 # nginx

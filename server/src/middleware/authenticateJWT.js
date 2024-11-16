@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { isTokenRevoked } = require('../controllers/user.controller');
 const SECRET_KEY = process.env.JWT_SECRET || 'default_secret'; // Asegúrate de usar la variable de entorno
 
 // Middleware de autenticación JWT
@@ -9,6 +10,10 @@ const authenticateJWT = (req, res, next) => {
         return res.status(403).json({ error: 'Acceso denegado. No se proporcionó un token.' });
     }
 
+    if (isTokenRevoked(token)) {
+        return res.status(401).json({ error: 'Token revocado' });
+    }
+
     jwt.verify(token, SECRET_KEY, (err, user) => {
         if (err) {
             return res.status(403).json({ error: 'Token no válido o expirado.' });
@@ -17,5 +22,7 @@ const authenticateJWT = (req, res, next) => {
         next(); // Continúa con la siguiente función
     });
 };
+
+
 
 module.exports = { authenticateJWT };

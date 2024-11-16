@@ -14,7 +14,7 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
-    const GOOGLE_CLIENT_ID = "230512244860-v5qbv35tbha8hgj4kh99uuhf6cdap9kq.apps.googleusercontent.com";
+    const GOOGLE_CLIENT_ID = "492940885368-qhh1peme5cj28nvm061894qoalq2qgtb.apps.googleusercontent.com";
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -26,7 +26,18 @@ function App() {
         }
     }, []);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        try {
+            await fetch(`${process.env.REACT_APP_API_URL}/api/users/logout`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         setIsAuthenticated(false);

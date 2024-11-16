@@ -2,6 +2,7 @@ const pool = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET || 'default_secret'; // Cambia esto a usar la variable de entorno
+const { jwtDecode } = require('jwt-decode');
 
 // Registro de usuarios
 exports.register = async (req, res) => {
@@ -28,6 +29,42 @@ exports.register = async (req, res) => {
         res.status(500).json({ error: 'Error al registrar el usuario' });
     }
 };
+
+exports.loginGoole = async (req, res) => {
+
+    const {credential} = req.body;
+
+    if (!credential) {
+        return res.status(400).json({ error: 'Falta la credencial emitida por google' });
+    }
+
+    let { email, sub, given_name } = jwtDecode(credential);
+
+    try {
+
+        let token;
+        let result = await pool.query(`SELECT * FROM users WHERE email = $1`, [email]);
+        const user = result.rows[0];
+
+        if (!user) {
+            result = await pool.query(
+                `INSERT INTO users (username, email, google_id, auth_provider) VALUES ($1, $2, $3, 'google') RETURNING id, username, email`,
+                [given_name, email, sub]
+            );
+
+            token = jwt.sign({ id: result.rows[0].id, username: result.rows[0].username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        } else {
+            token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        }
+
+        res.json({ message: 'Inicio de sesión exitoso', token });
+
+    } catch (error) {
+        console.error('Error en el inicio de sesión:', error.message);
+        res.status(500).json({ error: 'Error al iniciar sesión' });
+    }
+    
+}
 
 // Inicio de sesión
 exports.login = async (req, res) => {
@@ -58,3 +95,19 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: 'Error al iniciar sesión' });
     }
 };
+
+const revokedTokens = new Set(); // Sustituir por Redis en producción para mayor escalabilidad
+
+exports.logout = (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+        return res.status(400).json({ error: 'Token no proporcionado' });
+    }
+
+    revokedTokens.add(token); // Agregar el token a la lista de revocados
+    return res.status(200).json({ message: 'Sesión cerrada exitosamente' });
+};
+
+// Función para verificar si un token ha sido revocado
+exports.isTokenRevoked = (token) => revokedTokens.has(token);
