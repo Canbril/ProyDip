@@ -117,21 +117,25 @@ exports.getUserSignatures = async (req, res) => {
 // Controlador para verificar la firma de un archivo
 exports.verifySignature = async (req, res) => {
     const { archivo_id, signature } = req.body;
+    const username = req.user.username; // Asumimos que el usuario autenticado tiene el 'username' en req.user
 
     try {
-        // Consulta para obtener el archivo, la llave pública y el hash almacenado
+        // Consulta para obtener el archivo, el hash y la llave pública, filtrando por el 'username' del usuario
         const result = await pool.query(
             `SELECT a.archivo, a.hash_archivo, pk.key_value 
              FROM archivos_subidos a
              JOIN public_key pk ON pk.id = (
-                 SELECT public_key_id FROM archivos_firmados WHERE archivo_id = a.id
+                 SELECT public_key_id 
+                 FROM archivos_firmados 
+                 WHERE archivo_id = a.id AND username = $2
+                 LIMIT 1 -- Asegura que solo se obtenga un único registro
              )
              WHERE a.id = $1`,
-            [archivo_id]
+            [archivo_id, username]  // Usamos el 'username' del usuario para filtrar
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Archivo o llave pública no encontrada' });
+            return res.status(404).json({ error: 'Archivo o llave pública no encontrada o el usuario no tiene acceso a este archivo' });
         }
 
         const { archivo, hash_archivo, key_value: publicKey } = result.rows[0];
