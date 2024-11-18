@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { uploadFile, getUserFiles, signFile, verifySignature, getUserSignatures, shareFile, getUsers, signSharedFile} = require('../controllers/files.controller');
+const { uploadFile, getUserFiles, signFile, verifySignature, getUserSignatures, shareFile, getUsers,getSharedFiles} = require('../controllers/files.controller');
 const { authenticateJWT } = require('../middleware/authenticateJWT');
 
 // Rutas protegidas
@@ -13,6 +13,7 @@ router.get('/signatures', authenticateJWT, getUserSignatures);
 router.post('/share', authenticateJWT, shareFile);
 router.get('/users', authenticateJWT, getUsers);
 
+router.get('/shared-files', authenticateJWT, getSharedFiles);
 
 
 module.exports = router;

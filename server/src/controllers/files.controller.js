@@ -211,3 +211,23 @@ exports.getUsers = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener la lista de usuarios.' });
     }
 };
+
+// Controlador para obtener los archivos compartidos con el usuario autenticado
+exports.getSharedFiles = async (req, res) => {
+    const user_id = req.user.id;
+
+    try {
+        const result = await pool.query(
+            `SELECT a.id, a.nombre_archivo
+             FROM archivos_subidos a
+             JOIN archivos_compartidos ac ON ac.archivo_id = a.id
+             WHERE ac.user_id = $1`,
+            [user_id]
+        );
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error al obtener los archivos compartidos:', error);
+        res.status(500).json({ error: 'Error al obtener los archivos compartidos' });
+    }
+};

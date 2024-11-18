@@ -6,6 +6,7 @@ import VerifySignature from './VerifySignature';
 import Register from './Register';
 import Login from './Login';
 import ShareFile from './ShareFile';
+import SignSharedFile from './SharedFile';
 import './App.css';
 
 
@@ -51,6 +52,7 @@ function App() {
                         <SignFile token={token} />
                         <VerifySignature token={token} />
                         <ShareFile token={token} />
+                        <SignSharedFile token={token} />
                     </>
                 )}
             </main>
