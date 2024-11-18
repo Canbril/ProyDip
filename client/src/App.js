@@ -5,7 +5,9 @@ import SignFile from './SignFile';
 import VerifySignature from './VerifySignature';
 import Register from './Register';
 import Login from './Login';
+import ShareFile from './ShareFile';
 import './App.css';
+
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,6 +50,7 @@ function App() {
                         <UploadFile token={token} />
                         <SignFile token={token} />
                         <VerifySignature token={token} />
+                        <ShareFile token={token} />
                     </>
                 )}
             </main>

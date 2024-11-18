@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 const pool = require('../db');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 // Configuración de multer para almacenar archivos en memoria
 const upload = multer({ storage: multer.memoryStorage() });
@@ -150,5 +152,62 @@ exports.verifySignature = async (req, res) => {
     } catch (error) {
         console.error('Error al verificar la firma:', error);
         res.status(500).json({ error: 'Error al verificar la firma' });
+    }
+};
+
+// Controlador para compartir archivos entre usuarios
+exports.shareFile = async (req, res) => {
+    const { archivo_id, user_to_share_id, puede_firmar } = req.body;
+    const user_id = req.user.id; // El usuario autenticado obtiene su ID desde el token
+
+    if (user_id === user_to_share_id) {
+        return res.status(400).json({ error: 'No puedes compartir un archivo contigo mismo.' });
+    }
+
+    try {
+        // Verificar que el archivo pertenece al usuario autenticado
+        const fileResult = await pool.query(
+            'SELECT * FROM archivos_subidos WHERE id = $1 AND user_id = $2',
+            [archivo_id, user_id]
+        );
+
+        if (fileResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Archivo no encontrado o no es de tu propiedad.' });
+        }
+
+        // Verificar que el usuario a quien se quiere compartir el archivo existe
+        const userResult = await pool.query('SELECT id FROM users WHERE id = $1', [user_to_share_id]);
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Usuario no encontrado.' });
+        }
+
+        // Insertar en la tabla de archivos compartidos
+        await pool.query(
+            `INSERT INTO archivos_compartidos (archivo_id, user_id, puede_firmar, firmado) 
+             VALUES ($1, $2, $3, false)`,
+            [archivo_id, user_to_share_id, puede_firmar]
+        );
+
+        res.json({ message: 'Archivo compartido exitosamente.' });
+    } catch (error) {
+        console.error('Error al compartir el archivo:', error);
+        res.status(500).json({ error: 'Error al compartir el archivo.' });
+    }
+};
+
+// Controlador para obtener la lista de usuarios (excluyendo al usuario autenticado)
+exports.getUsers = async (req, res) => {
+    const user_id = req.user.id; // ID del usuario autenticado
+
+    try {
+        const result = await pool.query(
+            `SELECT id, username FROM users WHERE id != $1 ORDER BY username`,
+            [user_id]
+        );
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error al obtener la lista de usuarios:', error);
+        res.status(500).json({ error: 'Error al obtener la lista de usuarios.' });
     }
 };
