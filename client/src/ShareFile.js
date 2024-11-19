@@ -11,7 +11,7 @@ const ShareFile = ({ token }) => {
     // Función para obtener los archivos del usuario
     const fetchUserFiles = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/files/user-files', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/files/user-files`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -31,7 +31,7 @@ const ShareFile = ({ token }) => {
     // Función para obtener la lista de usuarios
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/files/users', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/files/users`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -63,7 +63,7 @@ const ShareFile = ({ token }) => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/files/share', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/files/share`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

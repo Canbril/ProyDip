@@ -15,7 +15,7 @@ CREATE TABLE users (
 
 -- Tabla de llaves públicas (un usuario puede tener varias)
 --Un usuario puede crear varios pares de llaves, almacenándose en la base de datos únicamente la llave pública
-CREATE TABLE `public_KEY` (
+CREATE TABLE public_KEY (
   id SERIAL NOT NULL,
   alias varchar(255) NOT NULL,
   key_value TEXT NOT NULL,
@@ -52,4 +52,5 @@ CREATE TABLE archivos_firmados (
  id SERIAL PRIMARY KEY, 
 archivo_id INT REFERENCES archivos_subidos(id) ON DELETE CASCADE, 
 public_key_id INT REFERENCES public_key(id), -- Referencia a la clave pública utilizada para firmar signature TEXT NOT NULL, 
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+username VARCHAR(255) );
