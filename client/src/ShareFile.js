@@ -85,35 +85,38 @@ const ShareFile = ({ token }) => {
     };
 
     return (
-        <div>
-            <h2>Compartir Archivo</h2>
-            <div>
-                <label>Seleccionar Archivo:</label>
-                <select onChange={(e) => setSelectedFile(e.target.value)} value={selectedFile}>
-                    <option value="">-- Selecciona un archivo --</option>
-                    {userFiles.map(file => (
-                        <option key={file.id} value={file.id}>{file.nombre_archivo}</option>
-                    ))}
-                </select>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Compartir Archivo</h2>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <label class="form-label">Seleccionar Archivo:</label>
+                    <select class="form-select" onChange={(e) => setSelectedFile(e.target.value)} value={selectedFile}>
+                        <option value="">-- Selecciona un archivo --</option>
+                        {userFiles.map(file => (
+                            <option key={file.id} value={file.id}>{file.nombre_archivo}</option>
+                        ))}
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <label class="form-label">Seleccionar Usuario:</label>
+                    <select class="form-select" onChange={(e) => setSelectedUser(e.target.value)} value={selectedUser}>
+                        <option value="">-- Selecciona un usuario --</option>
+                        {users.map(user => (
+                            <option key={user.id} value={user.id}>{user.username}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
-            <div>
-                <label>Seleccionar Usuario:</label>
-                <select onChange={(e) => setSelectedUser(e.target.value)} value={selectedUser}>
-                    <option value="">-- Selecciona un usuario --</option>
-                    {users.map(user => (
-                        <option key={user.id} value={user.id}>{user.username}</option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label>¿Puede Firmar?:</label>
+            <div class="mb-3">
+                <label class="form-label">¿Puede Firmar?:</label>
                 <input 
-                    type="checkbox" 
+                    type="checkbox"
+                    class="form-check-input"
                     checked={canSign} 
                     onChange={() => setCanSign(!canSign)} 
                 />
             </div>
-            <button onClick={handleShare}>Compartir Archivo</button>
+            <button class="btn btn-secondary" onClick={handleShare}>Compartir Archivo</button>
             {message && <p>{message}</p>}
         </div>
     );

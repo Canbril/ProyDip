@@ -70,9 +70,9 @@ function SharedFiles({ token }) {
     };
 
     return (
-        <div>
-            <h2>Archivos Compartidos</h2>
-            <select value={archivoId} onChange={(e) => setArchivoId(e.target.value)}>
+        <div class="mb-5 w-50 border-bottom-1">
+            <h2 class="h2">Archivos Compartidos</h2>
+            <select class="form-select mb-3" value={archivoId} onChange={(e) => setArchivoId(e.target.value)}>
                 <option value="">Selecciona un archivo</option>
                 {sharedFiles.length > 0 ? (
                     sharedFiles.map((file) => (
@@ -82,8 +82,10 @@ function SharedFiles({ token }) {
                     <option value="">No tienes archivos compartidos</option>
                 )}
             </select>
-            <input type="file" accept=".pem" onChange={handlePrivateKeyUpload} />
-            <button onClick={handleSignFile}>Firmar Archivo</button>
+            <div class="input-group">
+                <input class="form-control" type="file" accept=".pem" onChange={handlePrivateKeyUpload} />
+                <button class="btn btn-secondary" onClick={handleSignFile}>Firmar Archivo</button>
+            </div>
         </div>
     );
 }
